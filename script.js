@@ -8,7 +8,6 @@ function getComputerChoice() {
 
 // Gather user input
 function getUserChoice() {
-    alert("Hi! Are you ready to play Rock Paper Scissors?");
     alert("Enter your choice in 3...2...1...");
     return prompt("Please enter R for Rock, P for Paper, or S for Scissors:");
 };
@@ -69,7 +68,7 @@ function playGame(user, comp) {
 //Display game results
 function displayResults(user, comp, outcome) {
     if (outcome == "error"){
-        console.log("Please refresh and enter a valid choice!")
+        console.log("Please restart and enter a valid choice!");
         return;
     }
 
@@ -78,25 +77,60 @@ function displayResults(user, comp, outcome) {
     console.log("The computer's choice: " + comp);
     console.log(" ");
     if (outcome == "tie") {
-        console.log("It's a tie!");
+        console.log("This round is a tie!");
     } else if (outcome == "win") {
-        console.log("Congratulations! You win.");
+        console.log("Congrats! You win this round.");
     } else {
-        console.log("Oh no! You've lost.");
+        console.log("Oh no! You've lost this round.");
     }
+};
+
+function playSeries(rounds) {
+    alert("Hi! Are you ready to play Rock Paper Scissors?");
+    let user_score = 0;
+    let comp_score = 0;
+
+    for (let index = 0; index < rounds; index++) {
+        let round = index+1;
+        alert("Okay, ready for round " + round + "?");
+        console.log("Round " + round);
+        // Gather user input
+        let user_choice = translateUserInput(getUserChoice());
+
+        // Generate computer choice
+        let comp_choice = getComputerChoice();
+
+        // Compare choices to decide game result
+        let result = playGame(user_choice, comp_choice);
+
+        //Show game results
+        displayResults(user_choice, comp_choice, result);
+
+        // Increase score
+        if (result == "tie") {
+            break;
+        } else if (result == "win") {
+            user_score++;
+        } else {
+            comp_score++;
+        }
+        console.log("Round " + round + " score: " + user_score + " to " + comp_score);
+    }
+
     console.log(" ");
-    console.log("Thanks for playing! Refresh the page to go again.");
+    //Finds a winner
+    if (user_score == comp_score) {
+        console.log("It's a tie!");
+    } else if (user_score > comp_score) {
+        console.log("You win!");
+    } else {
+        console.log("The computer wins!");
+    }
+
+    console.log("Final score: " + user_score + " to " + comp_score);
+    console.log("Thanks for playing!")
 };
 
 // ------------------------------------------------------------------------
-// Gather user input
-let user_choice = translateUserInput(getUserChoice());
 
-// Generate computer choice
-let comp_choice = getComputerChoice();
-
-// Compare choices to decide game result
-let result = playGame(user_choice, comp_choice);
-
-displayResults(user_choice, comp_choice, result);
-
+playSeries(5);
