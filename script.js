@@ -1,77 +1,102 @@
-
-// Generate computer choice
 let choices = ["Rock", "Paper", "Scissors"];
+
+// Generates computer choice
 function getComputerChoice() {
     let x = Math.floor(Math.random() * choices.length);
     return choices[x];
 };
 
-let comp_choice = getComputerChoice();
-
 // Gather user input
-alert("Hi! Are you ready to play Rock Paper Scissors?");
-alert("Enter your choice in 3...2...1...");
-let user_input = prompt("Please enter R for Rock, P for Paper, or S for Scissors:");
+function getUserChoice() {
+    alert("Hi! Are you ready to play Rock Paper Scissors?");
+    alert("Enter your choice in 3...2...1...");
+    return prompt("Please enter R for Rock, P for Paper, or S for Scissors:");
+};
 
 // Translate user input to a game choice
-let user_choice;
-switch (user_input) {
-    case "R":
-        user_choice = "Rock";
-        break;
-    case "P":
-        user_choice = "Paper";
-        break;
-    case "S":
-        user_choice = "Scissors";
-        break;
-    default:
-        user_choice = "Undefined";
-        alert("Invalid input - please try again!");
-}
+function translateUserInput(input) {
+    temp = input.toUpperCase();
+    switch (temp) {
+        case "R":
+            return "Rock";
+            break;
+        case "P":
+            return "Paper";
+            break;
+        case "S":
+            return "Scissors";
+            break;
+        default:
+            alert("Invalid input - please try again!");    
+            return "undefined";
+    }
+};
+
+// Returns result of game given user and computer choices
+function playGame(user, comp) {
+    // make sure both inputs are one of the choices
+    if (user != "Rock" && user != "Paper" && user != "Scissors"){
+        return "error";
+    }
+    if (comp != "Rock" && comp != "Paper" && comp != "Scissors"){
+        return "error";
+    }
+    
+    // compare user and computer choices
+    if (user==comp){
+        return "tie";
+    } else if (user == "Rock") {
+        if (comp == "Scissors"){
+            return "win";
+        } else {
+            return "loss";
+        }
+    } else if (user == "Paper") {
+        if (comp == "Scissors"){
+            return "loss";
+        } else {
+            return "win";
+        }
+    } else {
+        if (comp == "Rock"){
+            return "loss";
+        } else {
+            return "win";
+        }
+    }
+};
+
+//Display game results
+function displayResults(user, comp, outcome) {
+    if (outcome == "error"){
+        console.log("Please refresh and enter a valid choice!")
+        return;
+    }
+
+    console.log("Okay, let's see what we have here...");
+    console.log("Your Choice: " + user);
+    console.log("The computer's choice: " + comp);
+    console.log(" ");
+    if (outcome == "tie") {
+        console.log("It's a tie!");
+    } else if (outcome == "win") {
+        console.log("Congratulations! You win.");
+    } else {
+        console.log("Oh no! You've lost.");
+    }
+    console.log(" ");
+    console.log("Thanks for playing! Refresh the page to go again.");
+};
+
+// ------------------------------------------------------------------------
+// Gather user input
+let user_choice = translateUserInput(getUserChoice());
+
+// Generate computer choice
+let comp_choice = getComputerChoice();
 
 // Compare choices to decide game result
-let result;
+let result = playGame(user_choice, comp_choice);
 
-if (!user_choice) {
-    result = "undefined";
-} else if (user_choice == comp_choice) {
-    result = "tie";
-} else if (user_choice == "Rock") {
-    if (comp_choice == "Scissors"){
-        result = "win";
-    } else {
-        result = "loss";
-    }
-} else if (user_choice == "Paper") {
-    if (comp_choice == "Scissors"){
-        result = "loss";
-    } else {
-        result = "win";
-    }
-} else {
-    if (comp_choice == "Rock"){
-        result = "loss";
-    } else {
-        result = "win";
-    }
-}
+displayResults(user_choice, comp_choice, result);
 
-// Display results
-console.log("Okay, let's see what we have here...");
-console.log("Your Choice: " + user_choice);
-console.log("The computer's choice: " + comp_choice);
-console.log(" ");
-
-if (result == "undefined"){
-    console.log("Please enter a valid choice!")
-} else if (result == "tie") {
-    console.log("It's a tie!");
-} else if (result == "win") {
-    console.log("Congratulations! You win.");
-} else {
-    console.log("Oh no! You've lost.");
-}
-
-console.log(" ");
-console.log("Thanks for playing! Refresh the page to go again.");
